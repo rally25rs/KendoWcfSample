@@ -1,0 +1,42 @@
+# .gitignore for .NET projects
+ 
+# Standard VS.NET
+obj
+bin
+*.csproj.user
+*.suo
+*.cache
+Thumbs.db
+*/App_Data/*
+
+# ReSharper
+*ReSharper*
+*resharper*
+
+# Telerik JustCode
+.JustCode
+ 
+# Other useful stuff
+*.bak
+*.cache
+*.log
+*.swp
+*.user
+_compareTemp
+_notes
+aspnet_client
+httpd.parse.errors
+ 
+# Office Temp Files
+~$*
+ 
+# build folder - for ILMerged output
+build
+build/*
+
+# Results from MSTest
+TestResults/
+
+# NuGet Package Restore
+packages/*
+!packages/repositories.config

@@ -67,7 +67,7 @@
         id: "AlbumId",
         fields: {
             AlbumId: {
-                editable: false,
+                //editable: false,
                 type: "number",
                 defaultValue: 0
             },
@@ -134,11 +134,33 @@
 
         schema: {
             model: albumModel,
-            data: function(data) {
-                return data.value;
+            parse: function (response) {
+                if (response) {
+                    if(response.value) {
+                        $.each(response.value, function(item) {
+                            delete item["odata.metadata"];
+                        });
+                    } else {
+                        delete response["odata.metadata"];
+                    }
+                }
+                return response;
             },
-            total: function(data) {
-                return data["odata.count"];
+            data: function (data) {
+                if (data.value) {
+                    return data.value;
+                }
+                return data;
+            },
+            total: function (data) {
+                if (data === undefined) {
+                    return 0;
+                } else if (data["odata.count"]) {
+                    return data["odata.count"];
+                } else if (data instanceof Array) {
+                    return data.length;
+                }
+                return 1;
             }
         }
     });

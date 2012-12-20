@@ -92,7 +92,7 @@
                 defaultValue: 9.99,
                 validation: {
                     min: 0.01,
-                    max: 100.00
+                    max: 200.00
                 }
             },
             AlbumArtUrl: {
@@ -112,56 +112,44 @@
         pageSize: 20,
         transport: {
             read: {
-                url: "/Services/MusicStore.svc/Albums"
+                url: "/Services/MusicStore.svc/Albums",
+                headers: {
+                    DataServiceVersion: "2.0",
+                    MaxDataServiceVersion: "2.0"
+                }
             },
             create: {
                 url: "/Services/MusicStore.svc/Albums",
-                type: "POST"
+                type: "POST",
+                headers: {
+                    DataServiceVersion: "2.0",
+                    MaxDataServiceVersion: "2.0"
+                }
             },
             update: {
                 url: function (data) {
                     return "/Services/MusicStore.svc/Albums(" + data.AlbumId + ")";
                 },
-                type: "PUT"
+                type: "PUT",
+                headers: {
+                    DataServiceVersion: "2.0",
+                    MaxDataServiceVersion: "2.0"
+                }
             },
             destroy: {
                 url: function (data) {
                     return "/Services/MusicStore.svc/Albums(" + data.AlbumId + ")";
                 },
-                type: "DELETE"
+                type: "DELETE",
+                headers: {
+                    DataServiceVersion: "2.0",
+                    MaxDataServiceVersion: "2.0"
+                }
             }
         },
 
         schema: {
-            model: albumModel,
-            parse: function (response) {
-                if (response) {
-                    if(response.value) {
-                        $.each(response.value, function(item) {
-                            delete item["odata.metadata"];
-                        });
-                    } else {
-                        delete response["odata.metadata"];
-                    }
-                }
-                return response;
-            },
-            data: function (data) {
-                if (data.value) {
-                    return data.value;
-                }
-                return data;
-            },
-            total: function (data) {
-                if (data === undefined) {
-                    return 0;
-                } else if (data["odata.count"]) {
-                    return data["odata.count"];
-                } else if (data instanceof Array) {
-                    return data.length;
-                }
-                return 1;
-            }
+            model: albumModel
         }
     });
 
